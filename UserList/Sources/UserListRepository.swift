@@ -1,32 +1,32 @@
 import Foundation
-
+//logique de récup des données depuis une API
 struct UserListRepository {
 
-    private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse)
+	private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse) //requête aésynchrone retournant des données et une réponse
 
-    init(
-        executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:)
-    ) {
-        self.executeDataRequest = executeDataRequest
-    }
+	init(
+		executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:)
+	) {
+		self.executeDataRequest = executeDataRequest
+	}
 
-    func fetchUsers(quantity: Int) async throws -> [User] {
-        guard let url = URL(string: "https://randomuser.me/api/") else {
-            throw URLError(.badURL)
-        }
+	func fetchUsers(quantity: Int) async throws -> [User] {
+		guard let url = URL(string: "https://randomuser.me/api/") else { //crée l'URL pour l'API
+			throw URLError(.badURL) //lance une erreur si invalide
+		}
 
-        let request = try URLRequest(
-            url: url,
-            method: .GET,
-            parameters: [
-                "results": quantity
-            ]
-        )
+		let request = try URLRequest( //crée une requête http get pour l'URL de l'API
+			url: url,
+			method: .GET,
+			parameters: [
+				"results": quantity
+			]
+		)
 
-        let (data, _) = try await executeDataRequest(request)
+		let (data, _) = try await executeDataRequest(request) //exécute la requête réseau et récupère les données, URLResponse ignorée
 
-        let response = try JSONDecoder().decode(UserListResponse.self, from: data)
-        
-        return response.results.map(User.init)
-    }
+		let response = try JSONDecoder().decode(UserListResponse.self, from: data) //décode les données reçues dans l'objet UserListResponse
+		
+		return response.results.map(User.init) //retourne tableau User en utilisant les résultats décodés
+	}
 }

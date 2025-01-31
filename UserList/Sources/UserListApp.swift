@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct UserListApp: App {
-    var body: some Scene {
-        WindowGroup {
-            UserListView()
-        }
-    }
+	var body: some Scene {
+		WindowGroup {
+			UserListView(
+				viewModel: ViewModel(
+					repository: UserListRepository()
+				)
+			)
+		}
+	}
 }
