@@ -7,18 +7,16 @@
 
 import SwiftUI
 
-class ViewModel: ObservableObject {
+class UserListViewModel: ObservableObject {
 	
 	// MARK: - Private properties
 	private let repository : UserListRepository
-	// MARK: - Public properties
-	
 	// MARK: - Init
 	init(repository: UserListRepository) { //repository est une instance de UserListRepository
 		self.repository = repository //crée le lien entre le repository et le viewmodel
 	}
 	// MARK: - Outputs
-
+ //propriétés suivies dans la view, qui se met à jour à chaque modif
 	@Published var users: [User] = []
 	@Published var isLoading = false
 	@Published var isGridView = false
@@ -29,7 +27,7 @@ class ViewModel: ObservableObject {
 	}
 	
 	// MARK: - Inputs
-
+// lien entre repository et view
 	func fetchUsers() { //charge les utilisateurs
 		self.isLoading = true
 		Task { //asynchrone : ne bloque pas la fluidité de l'interface utilisateur

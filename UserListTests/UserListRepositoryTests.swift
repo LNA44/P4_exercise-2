@@ -1,5 +1,6 @@
 import XCTest
 @testable import UserList
+//tests et mocks dans même fichier
 
 final class UserListRepositoryTests: XCTestCase {
     // Happy path test case
@@ -50,6 +51,30 @@ final class UserListRepositoryTests: XCTestCase {
             XCTAssertTrue(error is DecodingError)
         }
     }
+	
+	//Unhappy path test case: Empty JSON array
+	//func testFetchUsersEmptyJSONResponse() async throws {
+	//	//Given
+	//	let emptyJSONData = "empty JSON".data(using: .utf8)! //encodage en JSON
+	//	let emptyJSONResponse = HTTPURLResponse(
+	//		url: URL(string: "https://example.com")!,
+	//		statusCode: 200,
+	//		httpVersion: nil,
+	//		headerFields: nil
+	//		)!
+	//	let mockExecuteDataRequest: (URLRequest) async throws -> (Data, URLResponse) = { request in // création d'une fonction car UserListRepository attend une fonction comme argument
+	//		   return (emptyJSONData, emptyJSONResponse)
+	//	   }
+	//	let repository = UserListRepository(executeDataRequest: mockExecuteDataRequest)
+		
+		//When
+	//	do {
+	//		request = try await repository.fetchUsers(quantity:2)
+	//	}
+		//Then
+	//	XCTAssertEqual(users.count, 0)
+	//}
+	
 }
 
 private extension UserListRepositoryTests {
@@ -99,4 +124,15 @@ private extension UserListRepositoryTests {
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
         return (data, response)
     }
+	
+//	func mockExecuteDataRequestEmptyJSON(_ request:URLRequest) async throws -> (Data, URLResponse) {
+//		let emptySampleJSON = """
+//		{
+//		"results" : []
+//		}
+//		"""
+//		let data = emptySampleJSON.data(using: .utf8)! //encodage en JSON
+//		let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+//		return (data, response)
+//	}
 }

@@ -1,5 +1,6 @@
 import Foundation
-//représente un utilisateur individuel
+//model
+//transforme les données pour quelle soiet plus adaptées à l'appli
 struct User: Identifiable {
 	var id = UUID()
 	let name: Name

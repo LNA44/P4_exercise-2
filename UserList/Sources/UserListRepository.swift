@@ -1,8 +1,13 @@
 import Foundation
 //logique de récup des données depuis une API
+
+protocol UserListRepositoryType {
+	func fetchUsers(quantity: Int) async throws -> [User]
+}
+
 struct UserListRepository {
 
-	private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse) //requête aésynchrone retournant des données et une réponse
+	private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse) //requête asynchrone retournant des données et une réponse
 
 	init(
 		executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:)

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct UserListView: View {
-	@ObservedObject var viewModel : ViewModel
+	@ObservedObject var viewModel : UserListViewModel //ajout pour créer lien viewmodel
 	
 	
 	var body: some View {
@@ -10,26 +10,7 @@ struct UserListView: View {
 				if !viewModel.isGridView {
 					List(viewModel.users) { user in
 						NavigationLink(destination: UserDetailView(user: user)) {
-							HStack {
-								AsyncImage(url: URL(string: user.picture.thumbnail)) { image in
-									image
-										.resizable()
-										.aspectRatio(contentMode: .fill)
-										.frame(width: 50, height: 50)
-										.clipShape(Circle())
-								} placeholder: {
-									ProgressView()
-										.frame(width: 50, height: 50)
-										.clipShape(Circle())
-								}
-								
-								VStack(alignment: .leading) {
-									Text("\(user.name.first) \(user.name.last)")
-										.font(.headline)
-									Text("\(user.dob.date)")
-										.font(.subheadline)
-								}
-							}
+							UserListRawView(user: user) // sous vue pour chaque ligne de la liste qui se répète
 						}
 						.onAppear {
 							if viewModel.shouldLoadMoreData(currentItem: user) {
@@ -39,26 +20,10 @@ struct UserListView: View {
 					}
 				} else {
 					ScrollView {
-						LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
+						LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing:50) {
 							ForEach(viewModel.users) { user in
 								NavigationLink(destination: UserDetailView(user: user)) {
-									VStack {
-										AsyncImage(url: URL(string: user.picture.medium)) { image in
-											image
-												.resizable()
-												.aspectRatio(contentMode: .fill)
-												.frame(width: 150, height: 150)
-												.clipShape(Circle())
-										} placeholder: {
-											ProgressView()
-												.frame(width: 150, height: 150)
-												.clipShape(Circle())
-										}
-										
-										Text("\(user.name.first) \(user.name.last)")
-											.font(.headline)
-											.multilineTextAlignment(.center)
-									}
+									UserListSingleGridView(user : user) //sous vue pour chaque élément de la grille
 								}
 								.onAppear {
 									if viewModel.shouldLoadMoreData(currentItem: user) {
@@ -70,7 +35,7 @@ struct UserListView: View {
 					}
 				}
 			}.navigationTitle("Users")
-				.toolbar {
+				.toolbar { //redondance pour chacun des cas du pickers donc descendu pour un effet global
 				 ToolbarItem(placement: .navigationBarTrailing) {
 					 Picker(selection: $viewModel.isGridView, label: Text("Display")) {
 						 Image(systemName: "rectangle.grid.1x2.fill")
@@ -84,7 +49,7 @@ struct UserListView: View {
 				 }
 				 ToolbarItem(placement: .navigationBarTrailing) {
 					 Button(action: {
-						 viewModel.reloadUsers() //à mettre dans viewModel
+						 viewModel.reloadUsers() 
 					 }) {
 						 Image(systemName: "arrow.clockwise")
 							 .imageScale(.large)

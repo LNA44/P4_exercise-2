@@ -18,7 +18,9 @@
 		2FFB64282AC6D255007F2F80 /* UserListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB64272AC6D255007F2F80 /* UserListApp.swift */; };
 		2FFB642A2AC6D255007F2F80 /* UserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB64292AC6D255007F2F80 /* UserListView.swift */; };
 		2FFB642C2AC6D256007F2F80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FFB642B2AC6D256007F2F80 /* Assets.xcassets */; };
-		F33B7CC92D4D08D8002E5EC5 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33B7CC82D4D08D8002E5EC5 /* ViewModel.swift */; };
+		F33B7CC92D4D08D8002E5EC5 /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33B7CC82D4D08D8002E5EC5 /* UserListViewModel.swift */; };
+		F33B7CCF2D4E6267002E5EC5 /* UserListRawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33B7CCE2D4E6267002E5EC5 /* UserListRawView.swift */; };
+		F33B7CE92D4E6ED7002E5EC5 /* UserListSingleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33B7CE82D4E6ED7002E5EC5 /* UserListSingleGridView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +48,9 @@
 		2FFB64292AC6D255007F2F80 /* UserListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListView.swift; sourceTree = "<group>"; };
 		2FFB642B2AC6D256007F2F80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FFB64342AC6D256007F2F80 /* UserListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UserListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F33B7CC82D4D08D8002E5EC5 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		F33B7CC82D4D08D8002E5EC5 /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
+		F33B7CCE2D4E6267002E5EC5 /* UserListRawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRawView.swift; sourceTree = "<group>"; };
+		F33B7CE82D4E6ED7002E5EC5 /* UserListSingleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListSingleGridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +76,9 @@
 			children = (
 				2FFB64272AC6D255007F2F80 /* UserListApp.swift */,
 				2FFB64292AC6D255007F2F80 /* UserListView.swift */,
-				F33B7CC82D4D08D8002E5EC5 /* ViewModel.swift */,
+				F33B7CCE2D4E6267002E5EC5 /* UserListRawView.swift */,
+				F33B7CE82D4E6ED7002E5EC5 /* UserListSingleGridView.swift */,
+				F33B7CC82D4D08D8002E5EC5 /* UserListViewModel.swift */,
 				2F804AE12ACC976300A46A03 /* UserDetailView.swift */,
 				2FEF0C702ACB45E3004DB87C /* User.swift */,
 				2FEF0C6E2ACB416C004DB87C /* UserListResponse.swift */,
@@ -237,12 +243,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FF9D91D2ACB3D8800F3A6C5 /* HTTPMethod.swift in Sources */,
-				F33B7CC92D4D08D8002E5EC5 /* ViewModel.swift in Sources */,
+				F33B7CC92D4D08D8002E5EC5 /* UserListViewModel.swift in Sources */,
 				2FF9D91B2ACB3CE600F3A6C5 /* URLRequest.swift in Sources */,
 				2FFB642A2AC6D255007F2F80 /* UserListView.swift in Sources */,
+				F33B7CCF2D4E6267002E5EC5 /* UserListRawView.swift in Sources */,
 				2FEF0C6F2ACB416C004DB87C /* UserListResponse.swift in Sources */,
 				2F804AE22ACC976300A46A03 /* UserDetailView.swift in Sources */,
 				2FF9D91F2ACB3DD400F3A6C5 /* UserListRepository.swift in Sources */,
+				F33B7CE92D4E6ED7002E5EC5 /* UserListSingleGridView.swift in Sources */,
 				2FFB64282AC6D255007F2F80 /* UserListApp.swift in Sources */,
 				2FEF0C712ACB45E3004DB87C /* User.swift in Sources */,
 			);
