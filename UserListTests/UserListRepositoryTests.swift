@@ -25,6 +25,22 @@ final class UserListRepositoryTests: XCTestCase {
 		XCTAssertEqual(users[1].picture.medium, "https://example.com/medium.jpg")
 	}
 	
+	//Happy path test case
+	func testShouldLoadMoreDataSuccess() async throws {
+		//Given
+		let repository = UserListRepository(executeDataRequest: mockExecuteDataRequest)
+		let isLoading = false
+		let users = try await repository.fetchUsers(quantity:2)
+		let lastItem = users.last
+		
+		//When
+		let currentItem = users[1] //denrnier item
+		let shouldLoadMoreData = !isLoading && currentItem.id == lastItem?.id
+		
+		//Then
+		XCTAssertTrue(shouldLoadMoreData)
+	}
+
 	// Unhappy path test case: Invalid JSON response
 	func testFetchUsersInvalidJSONResponse() async throws {
 		// Given
@@ -64,6 +80,8 @@ final class UserListRepositoryTests: XCTestCase {
 		XCTAssertTrue(users.isEmpty, "The users list should be empty for an empty JSON response")
 		
 	}
+	
+	
 }
 
 private extension UserListRepositoryTests {
