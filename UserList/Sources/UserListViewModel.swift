@@ -29,14 +29,15 @@ class UserListViewModel: ObservableObject {
 	// MARK: - Inputs
 // lien entre repository et view
 	func fetchUsers() { //charge les utilisateurs
-		self.isLoading = true
+		isLoading = true
 		Task { //asynchrone : ne bloque pas la fluidité de l'interface utilisateur
 			do {
 				let users = try await repository.fetchUsers(quantity: 20)
-				self.users.append(contentsOf: users)
-				isLoading = false
+					self.users.append(contentsOf: users)
+					self.isLoading = false
 			} catch {
-				print("Error fetching users: \(error.localizedDescription)")
+					self.isLoading = false
+					print("Error fetching users: \(error.localizedDescription)")
 			}
 		}
 	}

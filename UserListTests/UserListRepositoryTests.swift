@@ -29,16 +29,39 @@ final class UserListRepositoryTests: XCTestCase {
 	func testShouldLoadMoreDataSuccess() async throws {
 		//Given
 		let repository = UserListRepository(executeDataRequest: mockExecuteDataRequest)
-		let isLoading = false
-		let users = try await repository.fetchUsers(quantity:2)
-		let lastItem = users.last
-		
-		//When
-		let currentItem = users[1] //denrnier item
-		let shouldLoadMoreData = !isLoading && currentItem.id == lastItem?.id
+		let viewModel = UserListViewModel(repository:repository) // car shouldLoadMoreData est dans le viewmodel
+		// Récupérer les utilisateurs avec la fonction fetchUsers
+		let users = try await repository.fetchUsers(quantity: 2)
+		// Injecter les utilisateurs dans viewModel.users
+		viewModel.users = users
+		// Définir isLoading à false
+		viewModel.isLoading = false
+		// Créer l'élément courant (currentItem) que nous voulons tester
+		let currentItem = users.last! // On prend le dernier utilisateur de la liste
+			
+		// When
+		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
 		
 		//Then
 		XCTAssertTrue(shouldLoadMoreData)
+	}
+	
+	
+	//Happy path test case
+	func testReloadUsersSuccess() async throws {
+		//Given
+		let repository = UserListRepository(executeDataRequest: mockExecuteDataRequest)
+		let viewModel = UserListViewModel(repository:repository)
+		let initialUsers = try await repository.fetchUsers(quantity: 2)
+		viewModel.users = initialUsers
+		
+		//When
+		viewModel.reloadUsers()
+		
+		//Then
+		for user in viewModel.users {
+			XCTAssertTrue(initialUsers.contains(where: { $0.id != user.id }), "Each user should be different after reload")
+		}
 	}
 
 	// Unhappy path test case: Invalid JSON response
@@ -79,6 +102,26 @@ final class UserListRepositoryTests: XCTestCase {
 		//Then
 		XCTAssertTrue(users.isEmpty, "The users list should be empty for an empty JSON response")
 		
+	}
+	
+	//Unhappy path test : case empty users
+	func testShouldLoadMoreDataResponse() async throws {
+		//Given
+		let repository = UserListRepository(executeDataRequest: mockExecuteDataRequest)
+		let viewModel = UserListViewModel(repository:repository) // car shouldLoadMoreData est dans le viewmodel
+		let users = try await repository.fetchUsers(quantity: 0)
+		// Injecter les utilisateurs dans viewModel.users
+		viewModel.users = users
+		// Définir isLoading à false
+		viewModel.isLoading = false
+		// Créer l'élément courant (currentItem) que nous voulons tester
+		let currentItem = User(user: mockUserResponse()) // On crée un utilisateur fictif que l'on suppose être le dernier de la liste
+				
+		// When
+		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
+			
+		//Then
+		XCTAssertFalse(shouldLoadMoreData, "with an empty list, shouldLoadMoreData should return false")
 	}
 	
 	
@@ -141,5 +184,13 @@ private extension UserListRepositoryTests {
 		let data = emptyJSON.data(using: .utf8)! //encodage en JSON
 		let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
 		return (data, response)
+	}
+	
+	func mockUserResponse() -> UserListResponse.User {
+		return UserListResponse.User(
+				   name: UserListResponse.User.Name(title: "Mr", first: "Test", last: "User"),
+				   dob: UserListResponse.User.Dob(date: "1990-01-01", age: 30),
+				   picture: UserListResponse.User.Picture(large: "large.jpg", medium: "medium.jpg", thumbnail: "thumbnail.jpg")
+			   )
 	}
 }
