@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 class UserListViewModel: ObservableObject {
 	
 	// MARK: - Private properties
@@ -30,17 +29,22 @@ class UserListViewModel: ObservableObject {
 // lien entre repository et view
 	func fetchUsers() { //charge les utilisateurs
 		isLoading = true
-		Task { //asynchrone : ne bloque pas la fluidité de l'interface utilisateur
+		Task {[weak self] in
+			guard let self = self else { return } //asynchrone : ne bloque pas la fluidité de l'interface utilisateur
 			do {
 				let users = try await repository.fetchUsers(quantity: 20)
+				await MainActor.run {
 					self.users.append(contentsOf: users)
 					self.isLoading = false
+				}
 			} catch {
+				await MainActor.run {
 					self.isLoading = false
-					print("Error fetching users: \(error.localizedDescription)")
+				}
+				print("Error fetching users: \(error.localizedDescription)")
 			}
 		}
-	}
+}
 
 	func reloadUsers() {
 		users.removeAll()
