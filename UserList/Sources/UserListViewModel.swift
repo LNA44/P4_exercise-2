@@ -51,6 +51,11 @@ class UserListViewModel: ObservableObject {
 		fetchUsers()
 	}
 	
+	func loadMoreDataIfNeeded(currentItem: User) {
+		if shouldLoadMoreData(currentItem: currentItem) && !isLoading {
+	  fetchUsers()
+  }
+}
 	
 
 }

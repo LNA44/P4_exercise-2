@@ -1,7 +1,7 @@
 import Foundation
 //model
 //transforme les données pour qu'elles soient plus adaptées à l'appli
-struct User: Identifiable {
+struct User: Identifiable, Hashable {
 	var id = UUID()
 	let name: Name
 	let dob: Dob
@@ -15,18 +15,18 @@ struct User: Identifiable {
 	}
 //permet de créer un objet utilisateur à partir de la liste de UserListResponse
 	// MARK: - Dob
-	struct Dob: Codable {
+	struct Dob: Codable, Hashable {
 		let date: String
 		let age: Int
 	}
 
 	// MARK: - Name
-	struct Name: Codable {
+	struct Name: Codable, Hashable {
 		let title, first, last: String
 	}
 
 	// MARK: - Picture
-	struct Picture: Codable {
+	struct Picture: Codable, Hashable {
 		let large, medium, thumbnail: String
 	}
 }
