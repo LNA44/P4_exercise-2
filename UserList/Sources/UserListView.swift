@@ -24,7 +24,7 @@ struct UserListView: View {
 						LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing:50) {
 							ForEach(viewModel.users) { user in
 								NavigationLink(destination: UserDetailView(user: user)) {
-									UserListSingleGridView(user : user) //sous vue pour chaque élément de la grille
+									UserListSingleGridView( user : user ) //sous vue pour chaque élément de la grille
 								}
 								.onAppear {
 									viewModel.loadMoreDataIfNeeded(currentItem: user)
