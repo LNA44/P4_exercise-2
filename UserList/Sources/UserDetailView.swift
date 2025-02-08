@@ -42,5 +42,6 @@ struct UserDetailView: View {
 		.padding(20)
 		.navigationTitle("\(user.name.first) \(user.name.last)")
 		.offset(y:-130)
+		.shadow(radius:5)
 	}
 }

@@ -11,7 +11,7 @@ struct UserListRawView: View {
 	var user : User //un utilisateur particulier
 	
 	var body: some View {
-		HStack {
+		HStack (spacing: 20){
 			AsyncImage(url: URL(string: user.picture.thumbnail)) { image in
 				image
 					.resizable()
@@ -33,10 +33,11 @@ struct UserListRawView: View {
 					.font(.subheadline)
 			}.foregroundColor(.primary)
 		}
-		.frame(width:350, height: 80)
+		.frame(width:330, height: 80)
 		.background(Color("Beige"))
 		.clipShape(RoundedRectangle(cornerRadius: 10))
 		.padding(EdgeInsets(top: -10, leading: 0, bottom:-10, trailing: 0))
+		.shadow(radius: 5)
 	}
 }
 
