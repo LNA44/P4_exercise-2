@@ -7,10 +7,9 @@
 //un élément de la grille des utilisateurs
 import SwiftUI
 
-struct UserListSingleGridView: View {
-	var user : User  
-	
-    var body: some View {
+struct UserSingleGridViewList: View {
+	var user : User
+	var body: some View {
 		VStack (spacing : 20){
 			AsyncImage(url: URL(string: user.picture.medium)) { image in
 				image
@@ -25,15 +24,14 @@ struct UserListSingleGridView: View {
 					.frame(width: 150, height: 150)
 					.clipShape(Circle())
 			}
-			
 			Text("\(user.name.first) \(user.name.last)")
 				.font(.headline)
 				.foregroundStyle(Color(.black))
 				.multilineTextAlignment(.center)
 		}
-    }
+	}
 }
 
 //#Preview {
-//    UserListSingleGridView()
+//    UserSingleGridViewList()
 //}
