@@ -1,8 +1,8 @@
 import Foundation
 //réponse d'une API contenant plusieurs objets utilisateurs
-//correspond exactement à ce que l'API retourne. Il transporte juste les données
-struct UserListResponse: Codable { //l'objet UserListResponse contient tous les utilisaéteurs
-	let results: [User] //récupère les données sous forme de tableau d'utilisateurs
+//correspond à la réponse de l'API après parsing
+struct UserListResponse: Codable { //l'objet UserListResponse contient tous les utilisateurs
+	let results: [User] 
 
 	// MARK: - User
 	struct User: Codable {

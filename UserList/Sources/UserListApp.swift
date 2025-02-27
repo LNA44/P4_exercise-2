@@ -12,7 +12,7 @@ struct UserListApp: App {
 	var body: some Scene {
 		WindowGroup {
 			UserViewList(
-				viewModel: UserListViewModel(
+				viewModel: UserListViewModel( //instanciation du viewModel et du repo
 					repository: UserListRepository()
 				)
 			)

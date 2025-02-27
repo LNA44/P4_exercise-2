@@ -13,8 +13,8 @@ struct UserViewList: View {
 							}
 							.opacity(0)
 							.listRowSpacing(15)
-							.onAppear {
-								viewModel.loadMoreDataIfNeeded(currentItem: user)
+							.task {
+								await viewModel.loadMoreDataIfNeeded(currentItem: user)
 							}
 						}.listRowBackground(Color.clear)
 						.listRowSeparator(.hidden)
@@ -26,8 +26,8 @@ struct UserViewList: View {
 								NavigationLink(destination: UserViewDetail(user: user)) {
 									UserSingleGridViewList( user : user ) //sous vue pour chaque élément de la grille
 								}
-								.onAppear {
-									viewModel.loadMoreDataIfNeeded(currentItem: user)
+								.task {
+									await viewModel.loadMoreDataIfNeeded(currentItem: user)
 								}
 							}
 						}
@@ -49,15 +49,17 @@ struct UserViewList: View {
 				}
 				ToolbarItem(placement: .navigationBarTrailing) {
 					Button(action: {
-						viewModel.reloadUsers()
+						Task{
+							await viewModel.reloadUsers()
+						}
 					}) {
 						Image(systemName: "arrow.clockwise")
 							.imageScale(.large)
 					}
 				}
 			}
-			.onAppear {
-				viewModel.fetchUsers()
+			.task {
+				await viewModel.fetchUsers()
 			}
 			
 		}

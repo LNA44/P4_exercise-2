@@ -8,7 +8,7 @@ struct User: Identifiable, Hashable {
 	let picture: Picture
 
 	// MARK: - Init
-	init(user: UserListResponse.User) { //on ne prend qu'un utilisateur parmi le tableau
+	init(user: UserListResponse.User) { //on ne prend qu'un utilisateur
 		self.name = .init(title: user.name.title, first: user.name.first, last: user.name.last)//crée un objet Name
 		self.dob = .init(date: user.dob.date, age: user.dob.age)
 		self.picture = .init(large: user.picture.large, medium: user.picture.medium, thumbnail: user.picture.thumbnail)

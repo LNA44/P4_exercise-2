@@ -31,7 +31,7 @@ struct UserViewDetail: View {
 					}
 				}
 			}
-		}.frame(width: 400, height: 400)
+		}.frame(width: 350, height: 400)
 			.background(Color("Beige") )
 			.cornerRadius(20)
 			.padding(20)

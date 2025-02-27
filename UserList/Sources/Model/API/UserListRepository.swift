@@ -10,7 +10,7 @@ struct UserListRepository {
 	private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse) //requête asynchrone retournant des données et une réponse
 
 	init(
-		executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:)
+		executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:) //appel reseau et récupère des datas et une réponse
 	) {
 		self.executeDataRequest = executeDataRequest
 	}
@@ -30,8 +30,8 @@ struct UserListRepository {
 
 		let (data, _) = try await executeDataRequest(request) //exécute la requête réseau et récupère les données, URLResponse ignorée
 
-		let response = try JSONDecoder().decode(UserListResponse.self, from: data) //décode les données reçues dans l'objet UserListResponse
+		let response = try JSONDecoder().decode(UserListResponse.self, from: data) //décode les données reçues en un objet UserListResponse
 		
-		return response.results.map(User.init) //retourne tableau User en utilisant les résultats décodés
+		return response.results.map(User.init) //retourne tableau User en utilisant response
 	}
 }

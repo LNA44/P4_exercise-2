@@ -4,23 +4,23 @@ extension URLRequest {
 	init(
 		url: URL,
 		method: HTTPMethod,
-		parameters: [String: Any]? = nil,
-		headers: [String: String]? = nil
+		parameters: [String: Any]? = nil, //pas obligatoire
+		headers: [String: String]? = nil //pas obligatoire
 	) throws {
-		guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { //vrif que l'URL est valide
+		guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { //vrif que l'URL est de type URLComponents cad qu'elle peut etre découpée en composants indiv
 			throw URLError(.badURL)
 		}
 
-		self.init(url: url)
+		self.init(url: url) //appelle l'init de la classe parent URLRequest
 
-		httpMethod = method.rawValue //de l'énum HTTP Method
+		httpMethod = method.rawValue //httpMethod est une propriété de la classe mère.
 
-		if let parameters = parameters { //si paramètres fournis
+		if let parameters = parameters {
 			switch method {
-			case .GET: //pour méthode get : ils sont fournis dans l'URL
-				encodeParametersInURL(parameters, components: components)
-			case .POST: //pour post: ils sont dnas le corps de la requête
-				try encodeParametersInBody(parameters)
+			case .GET:
+				encodeParametersInURL(parameters, components: components)//param ajoutés à l'URL
+			case .POST:
+				try encodeParametersInBody(parameters) //ajoutés dans le corps de la requete
 			}
 		}
 
@@ -37,18 +37,19 @@ extension URLRequest {
 	) {
 		var components = components
 		components.queryItems = parameters
-			.map { ($0, "\($1)") }
-			.map { URLQueryItem(name: $0, value: $1) }
-		url = components.url
+			.map { ($0, "\($1)") } // convertir valeur en chaine de caractères
+			.map { URLQueryItem(name: $0, value: $1) } //crée un tableau de queryItems
+		url = components.url //url avec queryItems
 	}
 
-	private mutating func encodeParametersInBody(//encode les paramèters dans le corps de la requête
+	private mutating func encodeParametersInBody(//encode les parameters dans le corps de la requête
 		_ parameters: [String: Any]
 	) throws {
-		setValue("application/json", forHTTPHeaderField: "Content-Type")
-		httpBody = try JSONSerialization.data(
-			withJSONObject: parameters,
-			options: .prettyPrinted
+		setValue("application/json", forHTTPHeaderField: "Content-Type") //header content-type : type json
+		httpBody = try JSONSerialization.data( // convertit des données swift en JSON
+			withJSONObject: parameters, //transforme parameters en JSON
+			options: .prettyPrinted //formatage avec indentations
 		)
 	}
 }
+//requete en sortie : URL avec param, methode, headers dans corps requete
