@@ -19,7 +19,7 @@ class UserListViewModel: ObservableObject {
 	@Published var users: [User] = []
 	@Published var isLoading = false
 	@Published var isGridView = false
-	let pageSize = 20
+	private let pageSize = 20
 	
 	func shouldLoadMoreData(currentItem item: User) -> Bool {
 		guard let lastItem = users.last else { return false }
