@@ -9,9 +9,9 @@ struct UserListRepository {
 
 	private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse) //requête asynchrone retournant des données et une réponse
 
-	init(
+	init( //permet de garder la prorpiété executeDataRequest privée + de pouvoir modifier sa valeur avec celle du mock pour tests
 		executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:) //appel reseau et récupère des datas et une réponse
-	) {
+	) { //data(for:) gère la tache et n'utilise pas resume() donc pas besoin de le mocker
 		self.executeDataRequest = executeDataRequest
 	}
 
