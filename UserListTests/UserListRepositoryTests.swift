@@ -102,7 +102,6 @@ final class UserListRepositoryTests: XCTestCase {
 			
 			let currentItem = viewModel.users.first!
 			let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
-			
 			XCTAssertFalse(shouldLoadMoreData)
 			expectation.fulfill()
 		}
@@ -117,7 +116,6 @@ final class UserListRepositoryTests: XCTestCase {
 		let expectation = XCTestExpectation(description: "reload users after first fetch")
 		//Task {
 		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
-		//problème d'attente de récup
 		let initialUsers = viewModel.users
 		//When
 		await viewModel.reloadUsers()
@@ -125,8 +123,8 @@ final class UserListRepositoryTests: XCTestCase {
 		for user in viewModel.users {
 			XCTAssertFalse(initialUsers.contains(where: { $0.id == user.id }),"Each user should be different after reload")
 			// chaque élément d'initialUsers =/= chaque élément de viewModel.users
-			expectation.fulfill()
 		}
+		expectation.fulfill()
 		await fulfillment(of: [expectation], timeout: 10)
 		//}
 	}
@@ -144,10 +142,31 @@ final class UserListRepositoryTests: XCTestCase {
 		await viewModel.reloadUsers()
 		//Then
 		XCTAssertTrue(initialUsers.isEmpty)
-			XCTAssertTrue(viewModel.users.isEmpty)
-			expectation.fulfill()
+		XCTAssertTrue(viewModel.users.isEmpty)
+		expectation.fulfill()
 		await fulfillment(of: [expectation], timeout: 10)
 		//}
-		
+	}
+	
+	func testLoadMoreDataIfNeededSuccess() async throws {
+		//Given
+		validResponse = true
+		setupTestEnvironment()
+		let expectation = XCTestExpectation(description: "reload users after first fetch")
+		let isLoading = false
+		await viewModel.fetchUsers() //2 users
+		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: viewModel.users[1])
+		//When
+		await viewModel.loadMoreDataIfNeeded(currentItem: viewModel.users[1]) // 2+2 users
+		//Then
+		XCTAssertEqual(viewModel.users.count,4)
+		XCTAssertTrue(shouldLoadMoreData)
+		XCTAssertFalse(isLoading)
+		expectation.fulfill()
+		await fulfillment(of: [expectation], timeout: 10)
+	}
+	
+	//CAS : EMPTY DATA ET STATUSCODE 500
+	func testLoadMoreDataIfNeededFailIncorrectResponse() async throws {
 	}
 }
