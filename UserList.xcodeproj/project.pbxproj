@@ -14,6 +14,7 @@
 		2FFB64282AC6D255007F2F80 /* UserListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFB64272AC6D255007F2F80 /* UserListApp.swift */; };
 		2FFB642C2AC6D256007F2F80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FFB642B2AC6D256007F2F80 /* Assets.xcassets */; };
 		F3B16CD82D709EA400ABF4DF /* DataMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B16CD72D709E9300ABF4DF /* DataMock.swift */; };
+		F3B16D042D788F9100ABF4DF /* UserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B16D032D788F9100ABF4DF /* UserListViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		2FFB642B2AC6D256007F2F80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FFB64342AC6D256007F2F80 /* UserListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UserListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3B16CD72D709E9300ABF4DF /* DataMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMock.swift; sourceTree = "<group>"; };
+		F3B16D032D788F9100ABF4DF /* UserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -126,6 +128,7 @@
 				F3B16CD72D709E9300ABF4DF /* DataMock.swift */,
 				2F015BA72ACC938F009A098C /* UserListRepositoryTests.swift */,
 				2FB4823B2ACC98DD0016CBA7 /* UserList.xctestplan */,
+				F3B16D032D788F9100ABF4DF /* UserListViewModelTests.swift */,
 			);
 			path = UserListTests;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F015BA82ACC938F009A098C /* UserListRepositoryTests.swift in Sources */,
+				F3B16D042D788F9100ABF4DF /* UserListViewModelTests.swift in Sources */,
 				F3B16CD82D709EA400ABF4DF /* DataMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

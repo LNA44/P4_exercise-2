@@ -1,6 +1,5 @@
 import XCTest
 @testable import UserList
-//tests et mocks dans même fichier
 
 final class UserListRepositoryTests: XCTestCase {
 	var viewModel: UserListViewModel!
@@ -73,100 +72,5 @@ final class UserListRepositoryTests: XCTestCase {
 		let users = try await repository.fetchUsers(quantity: quantity)
 		// Then
 		XCTAssertTrue(users.isEmpty, "users array should be empty")
-	}
-	
-	func testUserShouldLoadMoreData() async throws { //VALIDE
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "fetch last user")
-		
-		Task {
-			await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
-			
-			let currentItem = viewModel.users.last!
-			let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
-			
-			XCTAssertTrue(shouldLoadMoreData)
-			expectation.fulfill()
-		}
-		await fulfillment(of: [expectation], timeout: 10)
-	}
-	// CAS : CURRENTITEM IS NOT LAST
-	func testShouldNotLoadMoreData() async throws { //VALIDE
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "fetchLastUser")
-		
-		Task {
-			await viewModel.fetchUsers()
-			
-			let currentItem = viewModel.users.first!
-			let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
-			XCTAssertFalse(shouldLoadMoreData)
-			expectation.fulfill()
-		}
-		await fulfillment(of: [expectation], timeout: 10)
-	}
-	
-	//ERREUR AVEC TASK: POURQUOI?
-	func testReloadUsersSuccess() async throws { //new
-		//Given
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "reload users after first fetch")
-		//Task {
-		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
-		let initialUsers = viewModel.users
-		//When
-		await viewModel.reloadUsers()
-		//Then
-		for user in viewModel.users {
-			XCTAssertFalse(initialUsers.contains(where: { $0.id == user.id }),"Each user should be different after reload")
-			// chaque élément d'initialUsers =/= chaque élément de viewModel.users
-		}
-		expectation.fulfill()
-		await fulfillment(of: [expectation], timeout: 10)
-		//}
-	}
-	// BON CAS? ET BONNES VERIF?
-	func testReloadUsersFail() async throws { //new
-		//Given
-		validResponse = false
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "reload users after first fetch")
-		//Task {
-		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
-		//problème d'attente de récup
-		let initialUsers = viewModel.users
-		//When
-		await viewModel.reloadUsers()
-		//Then
-		XCTAssertTrue(initialUsers.isEmpty)
-		XCTAssertTrue(viewModel.users.isEmpty)
-		expectation.fulfill()
-		await fulfillment(of: [expectation], timeout: 10)
-		//}
-	}
-	
-	func testLoadMoreDataIfNeededSuccess() async throws {
-		//Given
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "reload users after first fetch")
-		let isLoading = false
-		await viewModel.fetchUsers() //2 users
-		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: viewModel.users[1])
-		//When
-		await viewModel.loadMoreDataIfNeeded(currentItem: viewModel.users[1]) // 2+2 users
-		//Then
-		XCTAssertEqual(viewModel.users.count,4)
-		XCTAssertTrue(shouldLoadMoreData)
-		XCTAssertFalse(isLoading)
-		expectation.fulfill()
-		await fulfillment(of: [expectation], timeout: 10)
-	}
-	
-	//CAS : EMPTY DATA ET STATUSCODE 500
-	func testLoadMoreDataIfNeededFailIncorrectResponse() async throws {
 	}
 }
