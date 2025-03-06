@@ -17,7 +17,7 @@ struct UserViewList: View {
 								await viewModel.loadMoreDataIfNeeded(currentItem: user)
 							}
 						}.listRowBackground(Color.clear)
-						.listRowSeparator(.hidden)
+							.listRowSeparator(.hidden)
 					}
 				} else {
 					ScrollView {
@@ -66,8 +66,8 @@ struct UserViewList: View {
 	}
 }
 
-//struct UserViewList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UserViewList()
-//    }
-//}
+struct UserViewList_Previews: PreviewProvider {
+    static var previews: some View {
+		UserViewList(viewModel: UserListViewModel(repository: UserListRepository()))
+    }
+}

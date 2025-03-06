@@ -12,14 +12,16 @@ class UserListViewModel: ObservableObject {
 	private let repository : UserListRepository
 	// MARK: - Init
 	init(repository: UserListRepository) {
-		self.repository = repository //crée le lien entre le repository et le viewmodel
+		self.repository = repository
 	}
 	// MARK: - Outputs
 	//propriétés suivies dans la view, qui se mettent à jour à chaque modif
 	@Published var users: [User] = []
 	@Published var isLoading = false
 	@Published var isGridView = false
+	@Published var networkError: String? = nil
 	private let pageSize = 20
+	
 	
 	func shouldLoadMoreData(currentItem item: User) -> Bool {
 		guard let lastItem = users.last else { return false }
@@ -27,7 +29,6 @@ class UserListViewModel: ObservableObject {
 	}
 	
 	// MARK: - Inputs
-	// lien entre repository et view
 	@MainActor //toute la fonction est effectuée sur le main thread
 	func fetchUsers() async { //charge les utilisateurs
 		isLoading = true
@@ -38,6 +39,7 @@ class UserListViewModel: ObservableObject {
 			self.isLoading = false
 		} catch { //traitement erreur
 			self.isLoading = false
+			self.networkError = "Error fetching users: \(error.localizedDescription)"
 			print("Error fetching users: \(error.localizedDescription)")
 		}
 	}
@@ -54,11 +56,5 @@ class UserListViewModel: ObservableObject {
 			await fetchUsers()
 		}
 	}
-	
-	
 }
-
-//#Preview {
-//    ViewModel()
-//}
 

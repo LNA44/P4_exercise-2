@@ -12,6 +12,7 @@ class DataMock {
 	let mockUser1: UserListResponse.User
 	let mockUser2: UserListResponse.User
 	let userListResponseMock: UserListResponse
+	var validResponse: Bool = true
 	
 	// MARK: - Init
 	
@@ -43,20 +44,25 @@ class DataMock {
 		return try JSONEncoder().encode(userListResponseTypeMock)
 	}
 	
-	func validMockResponse(request: URLRequest) async throws -> (Data, URLResponse) { //mock de executeDataRequest
-		print("validMockResponse est utilisé")
+	func executeRequest(request: URLRequest) async throws -> (Data, URLResponse) {
+		if validResponse {
+			return try await validMockResponse(request: request)
+		} else {
+			return try await invalidMockResponse(request: request)
+		}
+	}
+	
+	private func validMockResponse(request: URLRequest) async throws -> (Data, URLResponse) { //mock de executeDataRequest
 		let data = try encodeData(userListResponseTypeMock : userListResponseMock) //encode en Data : binaire
 		let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
 		return (data, response)
 	}
 	
-	// TODO: Méthode invalidMockResponse
-	func invalidMockResponse(request: URLRequest) async throws -> (Data, URLResponse) {
-		print("invalidMockResponse est utilisé")
-		let emptyUserListResponseMock = UserListResponse(results: [])
-		let data = try encodeData(userListResponseTypeMock : emptyUserListResponseMock)
-		let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-		return (data, response)
+	// réponse JSON ne correspond pas au format attendu
+	private func invalidMockResponse(request: URLRequest) async throws -> (Data, URLResponse) {
+		let invalidData = "invalidJSON".data(using: .utf8)!
+		let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: nil, headerFields: nil)!
+		return (invalidData, response)
 	}
 }
 
