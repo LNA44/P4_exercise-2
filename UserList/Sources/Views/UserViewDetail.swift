@@ -40,3 +40,13 @@ struct UserViewDetail: View {
 			.shadow(radius:5)
 	}
 }
+#Preview {
+	UserViewDetail(user: User(user: UserListResponse.User(
+		name: UserListResponse.User.Name(title: "mr", first: "john", last: "doe"),
+		dob: UserListResponse.User.Dob(date: "1990-02-12", age: 19),
+		picture: UserListResponse.User.Picture(
+			large: "https://randomuser.me/api/portraits/men/83.jpg",
+			medium: "https://randomuser.me/api/portraits/med/men/85.jpg",
+			thumbnail: "https://randomuser.me/api/portraits/thumb/men/86.jpg"
+		))))
+}

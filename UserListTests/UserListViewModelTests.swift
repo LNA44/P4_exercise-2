@@ -12,81 +12,43 @@ final class UserListViewModelTests: XCTestCase {
 	var viewModel: UserListViewModel!
 	var dataMock = DataMock()
 	var repository: UserListRepository!
-	var validResponse = false
 	
-	/*override func setUp(){ //avant chaque test de la classe
+	override func setUp(){
 		super.setUp()
-		if validResponse == true {
-			print("Valid response is being set")
-			repository = UserListRepository(executeDataRequest: dataMock.validMockResponse)
-			viewModel = UserListViewModel(repository: repository)
-		} else {
-			repository = UserListRepository(executeDataRequest: dataMock.invalidMockResponse)
-			viewModel = UserListViewModel(repository: repository)
-		}
-		
-		// TODO: Trouver une solution pour ne pas forcer à avoir tjrs réponse valide
+		dataMock.validResponse = true
+		repository = UserListRepository(executeDataRequest: dataMock.executeRequest)
+		viewModel = UserListViewModel(repository: repository)
 	}
-	*/
-	//permet d'être appelée après la déclaration de variables dans les tests
-	private func setupTestEnvironment() {
-			if validResponse {
-				print("Valid response is being set")
-				repository = UserListRepository(executeDataRequest: dataMock.validMockResponse)
-			} else {
-				repository = UserListRepository(executeDataRequest: dataMock.invalidMockResponse)
-			}
-			viewModel = UserListViewModel(repository: repository)
-		}
 	
-	override func tearDown() { // après chaque test
+	override func tearDown() {
 		viewModel = nil
 		repository = nil
-		validResponse = false
 		super.tearDown()
 		
 	}
 	
-	func testUserShouldLoadMoreData() async throws { //VALIDE
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "fetch last user")
+	func testUserShouldLoadMoreData() async {
+		//Given
+		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
 		
-		Task {
-			await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
-			
-			let currentItem = viewModel.users.last!
-			let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
-			
-			XCTAssertTrue(shouldLoadMoreData)
-			expectation.fulfill()
-		}
-		await fulfillment(of: [expectation], timeout: 10)
+		let currentItem = viewModel.users.last!
+		//When
+		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
+		//Then
+		XCTAssertTrue(shouldLoadMoreData)
 	}
-	// CAS : CURRENTITEM IS NOT LAST
-	func testShouldNotLoadMoreData() async throws { //VALIDE
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "fetchLastUser")
-		
-		Task {
-			await viewModel.fetchUsers()
-			
-			let currentItem = viewModel.users.first!
-			let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
-			XCTAssertFalse(shouldLoadMoreData)
-			expectation.fulfill()
-		}
-		await fulfillment(of: [expectation], timeout: 10)
+	func testShouldNotLoadMoreData() async {
+		//Given
+		await viewModel.fetchUsers()
+		let currentItem = viewModel.users.first!
+		//When
+		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
+		//Then
+		XCTAssertFalse(shouldLoadMoreData)
 	}
 	
-	//ERREUR AVEC TASK: POURQUOI?
-	func testReloadUsersSuccess() async throws { //new
+	func testReloadUsersSuccess() async { 
 		//Given
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "reload users after first fetch")
-		//Task {
 		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
 		let initialUsers = viewModel.users
 		//When
@@ -96,36 +58,24 @@ final class UserListViewModelTests: XCTestCase {
 			XCTAssertFalse(initialUsers.contains(where: { $0.id == user.id }),"Each user should be different after reload")
 			// chaque élément d'initialUsers =/= chaque élément de viewModel.users
 		}
-		expectation.fulfill()
-		await fulfillment(of: [expectation], timeout: 10)
-		//}
+		
 	}
-	// BON CAS? ET BONNES VERIF?
-	func testReloadUsersFail() async throws { //new
+	
+	func testReloadUsersFail() async {
 		//Given
-		validResponse = false
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "reload users after first fetch")
-		//Task {
+		dataMock.validResponse = false
+		
 		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
-		//problème d'attente de récup
 		let initialUsers = viewModel.users
 		//When
 		await viewModel.reloadUsers()
 		//Then
 		XCTAssertTrue(initialUsers.isEmpty)
 		XCTAssertTrue(viewModel.users.isEmpty)
-		expectation.fulfill()
-		await fulfillment(of: [expectation], timeout: 10)
-		//}
 	}
 	
-	func testLoadMoreDataIfNeededSuccess() async throws {
+	func testLoadMoreDataIfNeededSuccess() async {
 		//Given
-		validResponse = true
-		setupTestEnvironment()
-		let expectation = XCTestExpectation(description: "reload users after first fetch")
-		let isLoading = false
 		await viewModel.fetchUsers() //2 users
 		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: viewModel.users[1])
 		//When
@@ -133,8 +83,17 @@ final class UserListViewModelTests: XCTestCase {
 		//Then
 		XCTAssertEqual(viewModel.users.count,4)
 		XCTAssertTrue(shouldLoadMoreData)
-		XCTAssertFalse(isLoading)
-		expectation.fulfill()
-		await fulfillment(of: [expectation], timeout: 10)
 	}
+	
+	func testUserListIsEmptyWhenFetchUserErrorOccurs() async {
+		//Given
+		dataMock.validResponse = false
+		//When
+		await viewModel.fetchUsers()
+		//Then
+		XCTAssertTrue(viewModel.users.isEmpty)
+		XCTAssertFalse(viewModel.isLoading)
+		XCTAssertNotNil(viewModel.networkError)
+	}
+	
 }

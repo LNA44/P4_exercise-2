@@ -13,7 +13,6 @@ struct User: Identifiable, Hashable {
 		self.dob = .init(date: user.dob.date, age: user.dob.age)
 		self.picture = .init(large: user.picture.large, medium: user.picture.medium, thumbnail: user.picture.thumbnail)
 	}
-//permet de créer un objet utilisateur à partir de la liste de UserListResponse
 	// MARK: - Dob
 	struct Dob: Codable, Hashable {
 		let date: String
