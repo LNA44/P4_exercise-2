@@ -26,7 +26,6 @@ final class UserListRepositoryTests: XCTestCase {
 		// When
 		let users = try await repository.fetchUsers(quantity: quantity)
 		// Then
-		
 		XCTAssertEqual(users.count, quantity)
 		XCTAssertEqual(users[0].name.first, "john")
 		XCTAssertEqual(users[0].name.last, "doe")

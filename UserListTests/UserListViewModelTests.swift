@@ -30,13 +30,13 @@ final class UserListViewModelTests: XCTestCase {
 	func testUserShouldLoadMoreData() async {
 		//Given
 		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
-		
 		let currentItem = viewModel.users.last!
 		//When
 		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
 		//Then
 		XCTAssertTrue(shouldLoadMoreData)
 	}
+	
 	func testShouldNotLoadMoreData() async {
 		//Given
 		await viewModel.fetchUsers()
@@ -58,13 +58,11 @@ final class UserListViewModelTests: XCTestCase {
 			XCTAssertFalse(initialUsers.contains(where: { $0.id == user.id }),"Each user should be different after reload")
 			// chaque élément d'initialUsers =/= chaque élément de viewModel.users
 		}
-		
 	}
 	
 	func testReloadUsersFail() async {
 		//Given
 		dataMock.validResponse = false
-		
 		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
 		let initialUsers = viewModel.users
 		//When
@@ -95,5 +93,4 @@ final class UserListViewModelTests: XCTestCase {
 		XCTAssertFalse(viewModel.isLoading)
 		XCTAssertNotNil(viewModel.networkError)
 	}
-	
 }
