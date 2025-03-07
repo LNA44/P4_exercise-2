@@ -1,6 +1,5 @@
 import Foundation
 //model
-//transforme les données pour qu'elles soient plus adaptées à l'appli
 struct User: Identifiable, Hashable {
 	var id = UUID()
 	let name: Name
@@ -8,7 +7,7 @@ struct User: Identifiable, Hashable {
 	let picture: Picture
 
 	// MARK: - Init
-	init(user: UserListResponse.User) { //on ne prend qu'un utilisateur
+	init(user: UserListResponse.User) { 
 		self.name = .init(title: user.name.title, first: user.name.first, last: user.name.last)//crée un objet Name
 		self.dob = .init(date: user.dob.date, age: user.dob.age)
 		self.picture = .init(large: user.picture.large, medium: user.picture.medium, thumbnail: user.picture.thumbnail)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserRawViewList: View {
-	var user : User //un utilisateur particulier
+	var user : User 
 	var body: some View {
 		HStack (spacing: 20){
 			AsyncImage(url: URL(string: user.picture.thumbnail)) { image in

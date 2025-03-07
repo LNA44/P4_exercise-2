@@ -46,6 +46,7 @@ final class UserListRepositoryTests: XCTestCase {
 		do {
 			_ = try await repository.fetchUsers(quantity: quantity)
 		} catch {
+			//Then
 			XCTAssertTrue(error is DecodingError)
 		}
 	}

@@ -7,11 +7,11 @@ protocol UserListRepositoryType {
 
 struct UserListRepository {
 	
-	private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse) //requête asynchrone retournant des données et une réponse
+	private let executeDataRequest: (URLRequest) async throws -> (Data, URLResponse)
 	
-	init( //permet de garder la propriété executeDataRequest privée + de pouvoir modifier sa valeur avec celle du mock pour tests
-		executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:) //appel reseau et récupère des datas et une réponse
-	) { //data(for:) gère la tache et n'utilise pas resume() donc pas besoin de le mocker
+	init(
+		executeDataRequest: @escaping (URLRequest) async throws -> (Data, URLResponse) = URLSession.shared.data(for:)
+	) {
 		self.executeDataRequest = executeDataRequest
 	}
 	
@@ -28,10 +28,10 @@ struct UserListRepository {
 			]
 		)
 		
-		let (data, _) = try await executeDataRequest(request) //exécute la requête réseau et récupère les données, URLResponse ignorée
+		let (data, _) = try await executeDataRequest(request)
 		
-		let response = try JSONDecoder().decode(UserListResponse.self, from: data) //décode les données reçues en un objet UserListResponse
+		let response = try JSONDecoder().decode(UserListResponse.self, from: data)
 		
-		return response.results.map(User.init) //retourne tableau User en utilisant response
+		return response.results.map(User.init)
 	}
 }

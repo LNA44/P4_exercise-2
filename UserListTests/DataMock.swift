@@ -6,7 +6,6 @@
 //
 import Foundation
 @testable import UserList
-//mock de URLSession.shared.data
 class DataMock {
 	// MARK: - Properties
 	let mockUser1: UserListResponse.User
@@ -40,11 +39,11 @@ class DataMock {
 	
 	// MARK: - Methods
 	
-	private func encodeData(userListResponseTypeMock : UserListResponse) throws -> Data {
+	private func encodeData(userListResponseTypeMock : UserListResponse) throws -> Data { //encode en Data : binaire
 		return try JSONEncoder().encode(userListResponseTypeMock)
 	}
 	
-	func executeRequest(request: URLRequest) async throws -> (Data, URLResponse) {
+	func executeRequest(request: URLRequest) async throws -> (Data, URLResponse) { //mock de executeDataRequest
 		if validResponse {
 			return try await validMockResponse(request: request)
 		} else {
@@ -52,8 +51,8 @@ class DataMock {
 		}
 	}
 	
-	private func validMockResponse(request: URLRequest) async throws -> (Data, URLResponse) { //mock de executeDataRequest
-		let data = try encodeData(userListResponseTypeMock : userListResponseMock) //encode en Data : binaire
+	private func validMockResponse(request: URLRequest) async throws -> (Data, URLResponse) {
+		let data = try encodeData(userListResponseTypeMock : userListResponseMock)
 		let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
 		return (data, response)
 	}

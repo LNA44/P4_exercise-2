@@ -29,7 +29,7 @@ final class UserListViewModelTests: XCTestCase {
 	
 	func testUserShouldLoadMoreData() async {
 		//Given
-		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
+		await viewModel.fetchUsers() // création d'un tableau comprenant plusieurs User
 		let currentItem = viewModel.users.last!
 		//When
 		let shouldLoadMoreData = viewModel.shouldLoadMoreData(currentItem: currentItem)
@@ -49,21 +49,20 @@ final class UserListViewModelTests: XCTestCase {
 	
 	func testReloadUsersSuccess() async { 
 		//Given
-		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
+		await viewModel.fetchUsers()
 		let initialUsers = viewModel.users
 		//When
 		await viewModel.reloadUsers()
 		//Then
 		for user in viewModel.users {
 			XCTAssertFalse(initialUsers.contains(where: { $0.id == user.id }),"Each user should be different after reload")
-			// chaque élément d'initialUsers =/= chaque élément de viewModel.users
 		}
 	}
 	
 	func testReloadUsersFail() async {
 		//Given
 		dataMock.validResponse = false
-		await viewModel.fetchUsers() //récupération de users = mock:UserListResponse -> repo.fetchUsers:[User] -> viewModel.fetchUsers:let users=repo.fetchUsers
+		await viewModel.fetchUsers()
 		let initialUsers = viewModel.users
 		//When
 		await viewModel.reloadUsers()

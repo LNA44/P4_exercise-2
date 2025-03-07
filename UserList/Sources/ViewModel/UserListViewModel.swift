@@ -15,7 +15,6 @@ class UserListViewModel: ObservableObject {
 		self.repository = repository
 	}
 	// MARK: - Outputs
-	//propriétés suivies dans la view, qui se mettent à jour à chaque modif
 	@Published var users: [User] = []
 	@Published var isLoading = false
 	@Published var isGridView = false
@@ -29,12 +28,11 @@ class UserListViewModel: ObservableObject {
 	}
 	
 	// MARK: - Inputs
-	@MainActor //toute la fonction est effectuée sur le main thread
-	func fetchUsers() async { //charge les utilisateurs
+	@MainActor
+	func fetchUsers() async {
 		isLoading = true
 		do {
-			let users = try await repository.fetchUsers(quantity: pageSize) //passe sur le thread secondaire
-			//retour sur main queue pour avoir les données utiles aux views sur le main
+			let users = try await repository.fetchUsers(quantity: pageSize) 
 			self.users.append(contentsOf: users)
 			self.isLoading = false
 		} catch { //traitement erreur
