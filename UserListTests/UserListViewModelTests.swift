@@ -70,6 +70,7 @@ final class UserListViewModelTests: XCTestCase {
 		//Then
 		XCTAssertTrue(initialUsers.isEmpty)
 		XCTAssertTrue(viewModel.users.isEmpty)
+		XCTAssertNotNil(viewModel.networkError)
 	}
 	
 	func testLoadMoreDataIfNeededSuccess() async {
