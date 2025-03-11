@@ -22,7 +22,7 @@ class UserListViewModel: ObservableObject {
 	private let pageSize = 20
 	
 	
-	func shouldLoadMoreData(currentItem item: User) -> Bool {
+	private func shouldLoadMoreData(currentItem item: User) -> Bool {
 		guard let lastItem = users.last else { return false }
 		return !isLoading && item.id == lastItem.id
 	}
@@ -35,7 +35,7 @@ class UserListViewModel: ObservableObject {
 			let users = try await repository.fetchUsers(quantity: pageSize) 
 			self.users.append(contentsOf: users)
 			self.isLoading = false
-		} catch { //traitement erreur
+		} catch {
 			self.isLoading = false
 			self.networkError = "Error fetching users: \(error.localizedDescription)"
 			print("Error fetching users: \(error.localizedDescription)")
