@@ -22,7 +22,7 @@ class UserListViewModel: ObservableObject {
 	private let pageSize = 20
 	
 	
-	private func shouldLoadMoreData(currentItem item: User) -> Bool {
+	internal func shouldLoadMoreData(currentItem item: User) -> Bool {
 		guard let lastItem = users.last else { return false }
 		return !isLoading && item.id == lastItem.id
 	}
