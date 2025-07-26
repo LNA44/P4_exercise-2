@@ -1,22 +1,8 @@
-# SwiftUI User List
+# User List
 
-<img width="300" alt="User List App" src="https://github.com/OpenClassrooms-Student-Center/DA-iOS_P4_exercise-2/assets/10169030/026e4b94-84d7-4d07-a07b-ab30654dea80">
+## 🇬🇧 English Version
 
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-
-### Introduction
-
-The SwiftUI User List is a modern iOS application built with SwiftUI. It provides users with the ability to view a list of users and their details. This README will guide you through the app's features, how to get started, and its underlying MVVM architecture.
-
-### Features
+## Features
 
 - **User List**: View a list of users with their names and profile pictures.
 - **User Details**: Select a user from the list to view their detailed information, including their name and date of birth.
@@ -24,40 +10,69 @@ The SwiftUI User List is a modern iOS application built with SwiftUI. It provide
 - **Reload data**: You can reload the displayed data.
 - **Infinite scroll**: You can scroll down infinitely.
 
-### Todo
-
-- **Extract logic to a viewModel**: The main view contains to much logic, you should extract it to a viewModel, and unit test it.
-- **Extract view components from main view**: The main view contains to much view logic, you should split it in several sub view components.
-
-### MVVM Architecture (Model - View - ViewModel)
-
-##### View
-Responsible of managing the view state. No data/data-logic is handled here.
-
-##### ViewModel
-This is where the magic happens. This layer is listening for events from above through Inputs and transform them to Outputs. Thanks to this separation, each layer can communicates with each others without having a tight coupling of responsabilities.
-
-##### Repository (Model)
-Responsible of providing Data, by hiding where it comes from. In this project it's basicaly provided by `FileManager` but it could be either from Network etc..
-
-## Getting Started
-
-### Prerequisites
+## Requirements
 
 - Xcode 14 or later.
 - iOS 16 or later.
 
-### Installation
+## Architecture
 
-1. Clone the repository to your local machine:
-```shell
-git clone https://github.com/OpenClassrooms-Student-Center/DA-iOS_P4_exercise-2.git
-```
-2. Open the project in Xcode.
-3. Build and run the project on your preferred simulator or physical device.
+MVVM (Model-View-ViewModel)
 
-### Usage
+## Technologies & Frameworks
 
-Launch the app and play with it 💪
+SwiftUI
+Swift
+API & Network Communication
+
+## Setup
+
+Clone the repository:  
+git clone git@github.com:LNA44/P4_exercise-2.git
+
+## App Preview
+
+<img src="https://github.com/user-attachments/assets/35b77f72-a403-4336-a373-4c2516323021" width="200" />
+
+<img src="https://github.com/user-attachments/assets/3f482899-9ecf-4dc7-a180-62283fdb4a5c" width="200" />
+
+<img src="https://github.com/user-attachments/assets/1804e264-25be-4355-8c80-d2289ee3b206" width="200" />
+
+
+## 🇫🇷 Version française
+
+## Fonctionnalités
+
+Liste d’utilisateurs : Affichez une liste d’utilisateurs avec leur nom et leur photo de profil.
+
+Détails de l’utilisateur : Sélectionnez un utilisateur dans la liste pour afficher ses informations détaillées, y compris son nom et sa date de naissance.
+
+Choix du format d’affichage : Vous pouvez choisir entre un affichage en liste ou en grille.
+
+Rechargement des données : Vous pouvez recharger les données affichées.
+
+Défilement infini : Faites défiler la liste vers le bas pour charger davantage d’utilisateurs automatiquement.
+
+## Prérequis
+
+Xcode 14 ou version ultérieure
+iOS 16 ou version ultérieure
+
+## Architecture
+
+MVVM (Model-View-ViewModel)
+
+## Technologies & Frameworks
+
+SwiftUI
+Swift
+Communication réseau via API
+
+## Installation
+
+Clonez le dépôt :
+
+git clone git@github.com:LNA44/P4_exercise-2.git
+
 
 
